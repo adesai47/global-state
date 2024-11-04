@@ -4,68 +4,81 @@
 import React, { useState } from 'react';
 import { useTaskStore, Theme } from '../store';
 
+const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+
+interface DayTask {
+  title: string;
+  description: string;
+  status: string;
+}
+
 const TaskManagementPage: React.FC = () => {
   const addTask = useTaskStore((state) => state.addTask);
   const addTheme = useTaskStore((state) => state.addTheme);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [theme, setTheme] = useState<Theme>({
-    background: '#ffffff',
-    text: '#000000',
-    primary: '#3498db',
-    secondary: '#2ecc71',
-    accent: '#e74c3c',
-  });
+  const [tasks, setTasks] = useState<DayTask[]>(
+    daysOfWeek.map(() => ({ title: '', description: '', status: 'Pending' }))
+  );
 
-  const createTask = () => {
-    addTask(title, description, theme);
-    setTitle('');
-    setDescription('');
+  const handleTaskChange = (index: number, field: keyof DayTask, value: string) => {
+    const newTasks = [...tasks];
+    newTasks[index][field] = value;
+    setTasks(newTasks);
   };
 
-  const createTheme = () => addTheme(theme);
+  const createTask = (status: string) => {
+    const newTask: DayTask = {
+      title: '',
+      description: '',
+      status,
+    };
+    setTasks([...tasks, newTask]);
+  };
 
   return (
-    <div className="p-4">
-      <h1 className="mb-4 text-2xl font-semibold text-black">Create Task</h1>
-      <input
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        placeholder="Task Title"
-        className="w-full p-2 mb-2 border rounded text-black"
-      />
-      <textarea
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        placeholder="Task Description"
-        className="w-full p-2 mb-2 border rounded text-black"
-      />
-      <button
-        onClick={createTask}
-        className="w-full p-2 mb-4 text-white bg-blue-500 rounded hover:bg-blue-600"
-      >
-        Add Task
-      </button>
+    <div className="max-w-7xl mx-auto p-8 bg-black rounded-lg shadow-lg">
+      <h1 className="mb-6 text-3xl font-bold text-center text-white">Task Management</h1>
 
-      <h1 className="mb-4 text-2xl font-semibold text-black">Create Custom Theme</h1>
-      <input
-        type="color"
-        value={theme.background}
-        onChange={(e) => setTheme({ ...theme, background: e.target.value })}
-        className="w-full p-2 mb-2 border rounded"
-      />
-      <input
-        type="color"
-        value={theme.text}
-        onChange={(e) => setTheme({ ...theme, text: e.target.value })}
-        className="w-full p-2 mb-2 border rounded"
-      />
-      <button
-        onClick={createTheme}
-        className="w-full p-2 text-white bg-green-500 rounded hover:bg-green-600"
-      >
-        Add Theme
-      </button>
+      {/* Task Table */}
+      <div className="overflow-x-auto">
+        <table className="w-full border-collapse border border-gray-700">
+          <thead>
+            <tr className="bg-gray-800 text-white text-sm font-semibold">
+              <th className="p-2 border border-gray-700">Day</th>
+              <th className="p-2 border border-gray-700">Task</th>
+            </tr>
+          </thead>
+          <tbody>
+            {daysOfWeek.map((day, index) => (
+              <tr key={day}>
+                <td className="p-2 bg-gray-900 border border-gray-700 font-semibold text-white">
+                  {day}
+                </td>
+                <td className="p-2 border border-gray-700">
+                  <input
+                    type="text"
+                    placeholder="Enter task name"
+                    className="w-full p-1 mb-2 border rounded text-sm bg-gray-800 text-white"
+                    value={tasks[index].title}
+                    onChange={(e) => handleTaskChange(index, 'title', e.target.value)}
+                  />
+                  <textarea
+                    placeholder="Enter task description"
+                    className="w-full p-1 border rounded text-sm bg-gray-800 text-white"
+                    value={tasks[index].description}
+                    onChange={(e) => handleTaskChange(index, 'description', e.target.value)}
+                  ></textarea>
+                  <button
+                    onClick={() => createTask('Pending')}
+                    className="w-full mt-2 p-1 text-white bg-blue-500 rounded hover:bg-blue-600 text-sm"
+                  >
+                    Add Task
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

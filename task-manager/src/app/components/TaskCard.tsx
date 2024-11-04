@@ -3,36 +3,30 @@
 
 import React from 'react';
 import { Task } from '../store';
-import { FiTrash } from 'react-icons/fi'; // Import the trash icon from react-icons
 
 interface TaskCardProps {
   task: Task;
-  onClick: () => void;
-  onDelete: () => void; // Add onDelete prop for handling delete action
 }
 
-const TaskCard: React.FC<TaskCardProps> = ({ task, onClick, onDelete }) => (
-  <div
-    className="relative p-4 mb-2 rounded-lg cursor-pointer bg-white shadow"
-    style={{
-      backgroundColor: task.theme.background,
-      color: task.theme.text,
-    }}
-  >
-    <h4 className="text-lg font-semibold">{task.title}</h4>
-    <p className="text-sm">{task.description}</p>
+const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
+  const onDragStart = (event: React.DragEvent) => {
+    event.dataTransfer.setData('text', task.id);
+  };
 
-    {/* Trash icon for deleting the task */}
-    <button
-      onClick={(e) => {
-        e.stopPropagation(); // Prevent triggering the onClick event of the task card
-        onDelete();
+  return (
+    <div
+      draggable
+      onDragStart={onDragStart}
+      className="p-4 bg-white border rounded shadow cursor-pointer"
+      style={{
+        backgroundColor: task.theme.background,
+        color: task.theme.text,
       }}
-      className="absolute top-2 right-2 text-red-500 hover:text-red-700"
     >
-      <FiTrash size={18} />
-    </button>
-  </div>
-);
+      <h3 className="font-semibold">{task.title}</h3>
+      <p className="text-sm">{task.description}</p>
+    </div>
+  );
+};
 
 export default TaskCard;
