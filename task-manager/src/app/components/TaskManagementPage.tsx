@@ -35,41 +35,40 @@ const TaskManagementPage: React.FC = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto p-8 bg-black rounded-lg shadow-lg">
-      <h1 className="mb-6 text-3xl font-bold text-center text-white">Task Management</h1>
-
-      {/* Task Table */}
-      <div className="overflow-x-auto">
-        <table className="w-full border-collapse border border-gray-700">
+    <div className="p-8 bg-white">
+      <h1 className="mb-6 text-3xl font-bold text-center text-black">Task Management</h1>
+  
+      <div className="overflow-x-auto bg-white rounded-lg shadow">
+        <table className="w-full border-collapse">
           <thead>
-            <tr className="bg-gray-800 text-white text-sm font-semibold">
-              <th className="p-2 border border-gray-700">Day</th>
-              <th className="p-2 border border-gray-700">Task</th>
+            <tr className="bg-gray-100">
+              <th className="p-3 border border-gray-200 text-black font-semibold">Day</th>
+              <th className="p-3 border border-gray-200 text-black font-semibold">Task</th>
             </tr>
           </thead>
           <tbody>
             {daysOfWeek.map((day, index) => (
               <tr key={day}>
-                <td className="p-2 bg-gray-900 border border-gray-700 font-semibold text-white">
+                <td className="p-3 border border-gray-200 font-semibold text-black bg-gray-50">
                   {day}
                 </td>
-                <td className="p-2 border border-gray-700">
+                <td className="p-3 border border-gray-200">
                   <input
                     type="text"
                     placeholder="Enter task name"
-                    className="w-full p-1 mb-2 border rounded text-sm bg-gray-800 text-white"
+                    className="w-full p-2 mb-2 border rounded text-black bg-white"
                     value={tasks[index].title}
                     onChange={(e) => handleTaskChange(index, 'title', e.target.value)}
                   />
                   <textarea
                     placeholder="Enter task description"
-                    className="w-full p-1 border rounded text-sm bg-gray-800 text-white"
+                    className="w-full p-2 border rounded text-black bg-white"
                     value={tasks[index].description}
                     onChange={(e) => handleTaskChange(index, 'description', e.target.value)}
                   ></textarea>
                   <button
                     onClick={() => createTask('Pending')}
-                    className="w-full mt-2 p-1 text-white bg-blue-500 rounded hover:bg-blue-600 text-sm"
+                    className="w-full mt-2 p-2 text-white bg-blue-500 rounded hover:bg-blue-600"
                   >
                     Add Task
                   </button>
