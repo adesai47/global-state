@@ -1,16 +1,16 @@
 "use client";
 
 import React from 'react';
-import TaskManagementPage from '../components/TaskManagementPage';
+import ThemeManager from '../components/ThemeManager';
 import Sidebar from '../components/Sidebar';
 
-const ManagePage = () => (
+const ThemesPage = () => (
   <div className="flex h-screen bg-gray-100">
     <Sidebar />
     <main className="flex-1 overflow-auto">
-      <TaskManagementPage />
+      <ThemeManager />
     </main>
   </div>
 );
 
-export default ManagePage;
+export default ThemesPage;

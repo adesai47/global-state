@@ -9,15 +9,18 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "instructor": "^1.0.0",
     "next": "15.0.2",
+    "openai": "^4.71.0",
     "react": "19.0.0-rc-02c0e824-20241028",
     "react-dom": "19.0.0-rc-02c0e824-20241028",
     "react-icons": "^5.3.0",
     "uuid": "^11.0.2",
+    "zod": "^3.23.8",
     "zustand": "^5.0.1"
   },
   "devDependencies": {
-    "@types/node": "^20",
+    "@types/node": "^22.9.0",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.4.20",
